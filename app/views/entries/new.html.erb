@@ -1,22 +1,30 @@
-<h1>New Entry</h1>
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card text-center shadow-lg" style="width: 22rem;">
+    <div class="card-body">
+      <h5 class="card-title" style="color: #004d00;">Enter A Journal Note About Your Travels</h5>
 
-<form action="/entries" method="post">
-  <input type="hidden" name="place_id" value="<%= params["place_id"] %>">
+      <form action="/entries" method="post">
+        <input type="hidden" name="place_id" value="<%= params['place_id'] %>">
 
-  <p>
-    <label for="title_input">Title</label>
-    <input type="text" name="title" id="title_input">
-  </p>
+        <div class="mb-3 text-start">
+          <label for="title_input" class="form-label">Event Title</label>
+          <input type="text" name="title" id="title_input" class="form-control">
+        </div>
 
-  <p>
-    <label for="description_input">Description</label>
-    <input type="text" name="description" id="description_input">
-  </p>
+        <div class="mb-3 text-start">
+          <label for="description_input" class="form-label">Description of Event</label>
+          <input type="text" name="description" id="description_input" class="form-control"></input>
+        </div>
 
-  <p>
-    <label for="occurred_on_input">Occurred On</label>
-    <input type="date" name="occurred_on" id="occurred_on_input">
-  </p>
+        <div class="mb-3 text-start">
+          <label for="occurred_on_input" class="form-label">Occurred On</label>
+          <input type="date" name="occurred_on" id="occurred_on_input" class="form-control">
+        </div>
 
-  <button>Save</button>
-</form>
+        <button class="btn btn-light w-100" style="color: #004d00;">
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

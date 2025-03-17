@@ -1,17 +1,23 @@
-<h1>New User Account</h1>
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card text-center shadow-lg" style="width: 22rem;">
+    <div class="card-body">
+      <h5 class="card-title" style="color: #004d00;">Welcome Traveler! Create an Account</h5>
 
-<form action="/users" method="post">
-  <p>
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username">
-  </p>
-  <p>
-    <label for="email">Email</label>
-    <input type="text" name="email" id="email">
-  </p>
-  <p>
-    <label for="password">Password</label>
-    <input type="text" name="password" id="password">
-  </p>
-  <button>Signup</button>
-</form>
+      <form action="/users" method="post">
+        <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="Username">
+        </div>
+        <div class="mb-3">
+          <input type="text" name="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password">
+        </div>
+
+        <button class="btn btn-light w-100" style="color: #004d00; border: 1px solid #004d00;">
+          Complete Signup
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

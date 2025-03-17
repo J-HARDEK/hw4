@@ -1,6 +1,21 @@
-<h1>Login</h1>
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card text-center shadow-lg" style="width: 22rem;">
+    <div class="card-body">
+      <h5 class="card-title" style="color: #004d00;">Welcome Traveler! Please Login</h5>
 
-<form action="/sessions" method="post">
+      <form action="/sessions" method="post">
+        <div class="mb-3">
+          <input type="text" name="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password">
+        </div>
 
-  <button>Login<button>
-</form>
+        <button class="btn btn-light w-100" style="color: #004d00;">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+

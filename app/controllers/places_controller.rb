@@ -1,11 +1,20 @@
 class PlacesController < ApplicationController
   def index
-    @user = User.find_by(id: session["user_id"])
-    if @user.nil?
-      flash["notice"] = "You must be logged in to view places."
-      redirect_to "/login"
+    if session["user_id"]
+      @places = Place.joins(:entries).where(entries: { user_id: session["user_id"] }).distinct
     else
-      @places = Place.where(name: @user.username)
+      flash["notice"] = "You must be logged in to see places."
+      redirect_to "/login"
+    end
+  end
+
+  def show
+    @place = Place.find_by(id: params["id"])
+    if @place && Entry.exists?(place_id: @place.id, user_id: session["user_id"])
+      @entries = Entry.where(place_id: @place.id)
+    else
+      flash["notice"] = "You don't have access to this place."
+      redirect_to "/places"
     end
   end
 
@@ -13,30 +22,15 @@ class PlacesController < ApplicationController
   end
 
   def create
-    @user = User.find_by(id: session["user_id"])
-    if @user.nil?
-      flash["notice"] = "Login first."
-      redirect_to "/login"
-      return
-    end
-    
     @place = Place.new
-    @place.name = params["name"]
-    
+    @place["name"] = params["name"]
     if @place.save
-      flash["notice"] = "Place created successfully!"
+      Entry.create(place_id: @place.id, user_id: session["user_id"], title: "", description: "", occurred_on: Date.today)
+      flash["notice"] = "Place added!"
+      redirect_to "/places"
     else
-      flash["notice"] = "Error saving place"
+      flash["notice"] = "Error adding place."
+      render "new"
     end
-    
-    redirect_to "/places"
-  end
-
-  before_action :allow_cors
-  def allow_cors
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, Auth-Token, Email, X-User-Token, X-User-Email'
-    response.headers['Access-Control-Max-Age'] = '1728000'
   end
 end

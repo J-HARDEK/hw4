@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
   <div class="card text-center shadow-lg" style="width: 22rem;">
     <div class="card-body">
-      <h5 class="card-title" style="color: #004d00;">Enter A Journal Note About Your Travels</h5>
+      <h5 class="card-title"">Enter A Journal Note About Your Travels</h5>
 
       <form action="/entries" method="post">
         <input type="hidden" name="place_id" value="<%= params['place_id'] %>">
@@ -21,9 +21,7 @@
           <input type="date" name="occurred_on" id="occurred_on_input" class="form-control">
         </div>
 
-        <button class="btn btn-light w-100" style="color: #004d00;">
-          Save
-        </button>
+        <button class="btn btn-primary w-100"">Save Entry</button>
       </form>
     </div>
   </div>

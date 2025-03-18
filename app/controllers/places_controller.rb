@@ -1,52 +1,42 @@
 class PlacesController < ApplicationController
   def index
-    if session["user_id"]
-      puts "DEBUG: session user_id = #{session["user_id"]}"  # Check if user_id is set
-      
-      @places = Place.where(user_id: session["user_id"])
-      puts "DEBUG: Found places = #{@places.inspect}"  # Print places found
-
-      if @places.empty?
-        flash["notice"] = "No places found. Try adding one."
-      end
-    else
-      flash["notice"] = "You must be logged in to see places."
+    @user = User.find_by(id: session["user_id"])
+    if @user.nil?
+      flash["notice"] = "You must be logged in to view places."
       redirect_to "/login"
-    end
-  end
-
-  def show
-    @place = Place.find_by(id: params["id"], user_id: session["user_id"]) # Ensure user owns the place
-
-    if @place
-      @entries = Entry.where(place_id: @place.id)  # Load associated entries
     else
-      flash["notice"] = "You don't have access to this place."
-      redirect_to "/places"
+      @places = Place.where(name: @user.username)
     end
   end
 
   def new
-    @place = Place.new
   end
 
   def create
-    if session["user_id"]
-      @place = Place.new({
-        "name" => params["name"],
-        "user_id" => session["user_id"]
-      })
-
-      if @place.save
-        flash["notice"] = "Place added successfully!"
-        redirect_to "/places"
-      else
-        flash["notice"] = @place.errors.full_messages.join(", ")
-        redirect_to "/places/new"
-      end
-    else
-      flash["notice"] = "You must be logged in to add a place."
+    @user = User.find_by(id: session["user_id"])
+    if @user.nil?
+      flash["notice"] = "Login first."
       redirect_to "/login"
+      return
     end
+    
+    @place = Place.new
+    @place.name = params["name"]
+    
+    if @place.save
+      flash["notice"] = "Place created successfully!"
+    else
+      flash["notice"] = "Error saving place"
+    end
+    
+    redirect_to "/places"
+  end
+
+  before_action :allow_cors
+  def allow_cors
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, Auth-Token, Email, X-User-Token, X-User-Email'
+    response.headers['Access-Control-Max-Age'] = '1728000'
   end
 end
